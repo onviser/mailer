@@ -71,7 +71,7 @@ $mail = (new Mail())
             ->setSubject('This is a subject')
             ->setBody('<p>This is a <strong>HTML</strong> body</p>')
             ->setFrom('from@example.com')
-            ->to('to@example.com');
+            ->to('to@example.com')
             ->attachment($attachmentText)
             ->attachment($attachmentHTML);
 ```
