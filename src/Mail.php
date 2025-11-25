@@ -4,10 +4,10 @@ namespace Onviser\Mailer;
 
 class Mail
 {
-    public const TYPE_TEXT = 'text/plain';
-    public const TYPE_HTML = 'text/html';
+    public const string TYPE_TEXT = 'text/plain';
+    public const string TYPE_HTML = 'text/html';
 
-    public const CHARSET_UTF_8 = 'utf-8';
+    public const string CHARSET_UTF_8 = 'utf-8';
 
     protected string $type = self::TYPE_TEXT;
     protected string $charset = self::CHARSET_UTF_8;
@@ -41,12 +41,6 @@ class Mail
     /** @var Attachment[] */
     protected array $attachments = [];
 
-    /**
-     * @param string $subject
-     * @param string $body
-     * @param string $to
-     * @param string $from
-     */
     public function __construct(
         string $subject = '',
         string $body = '',
@@ -62,11 +56,7 @@ class Mail
         }
     }
 
-    /**
-     * @param string $subject
-     * @return $this
-     */
-    public function setSubject(string $subject): self
+    public function setSubject(string $subject): static
     {
         $this->subject = $subject;
         return $this;
@@ -77,11 +67,7 @@ class Mail
         return $this->subject;
     }
 
-    /**
-     * @param string $body
-     * @return $this
-     */
-    public function setBody(string $body): self
+    public function setBody(string $body): static
     {
         $this->body = $body;
         return $this;
@@ -92,11 +78,7 @@ class Mail
         return $this->body;
     }
 
-    /**
-     * @param string $to
-     * @return $this
-     */
-    public function to(string $to): self
+    public function to(string $to): static
     {
         if ($to !== '') {
             $this->to[] = trim($to);
@@ -112,11 +94,7 @@ class Mail
         return $this->to;
     }
 
-    /**
-     * @param string $copy
-     * @return $this
-     */
-    public function copy(string $copy): self
+    public function copy(string $copy): static
     {
         $this->copy[] = trim($copy);
         return $this;
@@ -130,11 +108,7 @@ class Mail
         return $this->copy;
     }
 
-    /**
-     * @param string $blindCopy
-     * @return $this
-     */
-    public function blindCopy(string $blindCopy): self
+    public function blindCopy(string $blindCopy): static
     {
         $this->blindCopy[] = trim($blindCopy);
         return $this;
@@ -148,12 +122,7 @@ class Mail
         return $this->blindCopy;
     }
 
-    /**
-     * @param string $from
-     * @param string $fromName
-     * @return $this
-     */
-    public function setFrom(string $from, string $fromName = ''): self
+    public function setFrom(string $from, string $fromName = ''): static
     {
         $this->from = $from;
         $this->fromName = $fromName;
@@ -170,11 +139,7 @@ class Mail
         return $this->fromName;
     }
 
-    /**
-     * @param string $replayTo
-     * @return $this
-     */
-    public function setReplayTo(string $replayTo): self
+    public function setReplayTo(string $replayTo): static
     {
         $this->replayTo = $replayTo;
         return $this;
@@ -185,11 +150,7 @@ class Mail
         return $this->replayTo;
     }
 
-    /**
-     * @param string $type
-     * @return $this
-     */
-    public function setType(string $type): self
+    public function setType(string $type): static
     {
         $this->type = $type;
         return $this;
@@ -200,11 +161,7 @@ class Mail
         return $this->type;
     }
 
-    /**
-     * @param string $charset
-     * @return $this
-     */
-    public function setCharset(string $charset): self
+    public function setCharset(string $charset): static
     {
         $this->charset = $charset;
         return $this;
@@ -215,11 +172,7 @@ class Mail
         return $this->charset;
     }
 
-    /**
-     * @param int $time
-     * @return $this
-     */
-    public function setTime(int $time): self
+    public function setTime(int $time): static
     {
         $this->time = $time;
         return $this;
@@ -230,11 +183,7 @@ class Mail
         return $this->time;
     }
 
-    /**
-     * @param Attachment $attachment
-     * @return $this
-     */
-    public function attachment(Attachment $attachment): self
+    public function attachment(Attachment $attachment): static
     {
         $this->attachments[] = $attachment;
         return $this;
@@ -270,9 +219,6 @@ class Mail
         if (count($this->copy) > 0) {
             $data .= 'Cc: ' . implode(', ', $this->copy) . $EOL;
         }
-        if (count($this->blindCopy) > 0) {
-            $data .= 'Bcc: ' . implode(', ', $this->blindCopy) . $EOL;
-        }
         $data .= 'Date: ' . date('D, d M Y H:i:s', $this->time > 0 ? $this->time : time()) . $EOL;
         $data .= $EOL;
 
@@ -300,10 +246,6 @@ class Mail
         return $data;
     }
 
-    /**
-     * @param string $value
-     * @return string
-     */
     protected function encode(string $value): string
     {
         return '=?' . $this->charset . '?B?' . base64_encode($value) . '?=';

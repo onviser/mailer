@@ -4,13 +4,13 @@ namespace Onviser\Mailer\Socket;
 
 class Socket implements SocketInterface
 {
-    protected const EOL = "\r\n";
+    protected const string EOL = "\r\n";
 
-    protected const ERROR_CONNECTION = "socket connection error, code: %s, message: %s";
-    protected const ERROR_REQUEST = "socket request error";
-    protected const ERROR_RESPONSE = "socket response error";
+    protected const string ERROR_CONNECTION = "socket connection error, code: %s, message: %s";
+    protected const string ERROR_REQUEST = "socket request error";
+    protected const string ERROR_RESPONSE = "socket response error";
 
-    public const HELLO_NAME = 'Onviser SMTP Client';
+    public const string HELLO_NAME = 'Onviser SMTP Client';
 
     /**
      * @var resource
@@ -30,7 +30,7 @@ class Socket implements SocketInterface
     {
     }
 
-    public function setHelloName(string $helloName): self
+    public function setHelloName(string $helloName): static
     {
         $this->helloName = $helloName;
         return $this;
@@ -64,7 +64,7 @@ class Socket implements SocketInterface
 
     public function close(): bool
     {
-        return is_resource($this->socket) ? fclose($this->socket) : false;
+        return is_resource($this->socket) && fclose($this->socket);
     }
 
     public function put(string $command): bool

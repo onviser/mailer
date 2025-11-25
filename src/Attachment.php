@@ -4,11 +4,6 @@ namespace Onviser\Mailer;
 
 class Attachment
 {
-    /**
-     * @param string $data
-     * @param string $fileName
-     * @param string $fileType
-     */
     public function __construct(
         protected string $data = '',
         protected string $fileName = '',
@@ -17,11 +12,7 @@ class Attachment
     {
     }
 
-    /**
-     * @param string $data
-     * @return $this
-     */
-    public function setData(string $data): self
+    public function setData(string $data): static
     {
         $this->data = $data;
         return $this;
@@ -32,11 +23,7 @@ class Attachment
         return $this->data;
     }
 
-    /**
-     * @param string $fileName
-     * @return $this
-     */
-    public function setFileName(string $fileName): self
+    public function setFileName(string $fileName): static
     {
         $this->fileName = $fileName;
         return $this;
@@ -47,11 +34,7 @@ class Attachment
         return $this->fileName;
     }
 
-    /**
-     * @param string $fileType
-     * @return $this
-     */
-    public function setFileType(string $fileType): self
+    public function setFileType(string $fileType): static
     {
         $this->fileType = $fileType;
         return $this;

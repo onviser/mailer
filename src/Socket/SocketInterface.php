@@ -14,7 +14,7 @@ interface SocketInterface
 
     public function getError(): string;
 
-    public function setHelloName(string $helloName): self;
+    public function setHelloName(string $helloName): static;
 
     public function getHelloName(): string;
 

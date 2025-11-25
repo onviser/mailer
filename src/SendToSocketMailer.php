@@ -8,7 +8,7 @@ use Onviser\Mailer\Socket\SocketInterface;
 class SendToSocketMailer implements MailerInterface
 {
     /**
-     * @var string[]
+     * @var array<string>
      */
     protected array $log = [];
 
@@ -56,9 +56,6 @@ class SendToSocketMailer implements MailerInterface
     }
 
     /**
-     * @param int $expectedCode
-     * @param string $command
-     * @return bool
      * @throws SocketException
      */
     protected function command(int $expectedCode, string $command = ''): bool
@@ -69,7 +66,7 @@ class SendToSocketMailer implements MailerInterface
         }
         $answer = $this->socket->get();
         $this->log('server', $answer);
-        $code = intval(substr($answer, 0, 3));
+        $code = (int)substr($answer, 0, 3);
         if ($code !== $expectedCode) {
             $this->socket->put('RSET');
             $this->log('client', 'RSET');
@@ -77,7 +74,6 @@ class SendToSocketMailer implements MailerInterface
             $this->socket->put('QUIT');
             $this->log('client', 'QUIT');
             $this->log('server', $this->socket->get());
-            $this->socket->close();
             $this->error = "command: $command, expected code: $expectedCode, answer: $answer";
             throw (new SocketException())
                 ->setCommand($command)
@@ -87,19 +83,14 @@ class SendToSocketMailer implements MailerInterface
         return true;
     }
 
-    /**
-     * @param string $prefix
-     * @param string|null $message
-     * @return $this
-     */
-    protected function log(string $prefix, ?string $message = ''): self
+    protected function log(string $prefix, string $message = ''): static
     {
-        $this->log[] = $prefix . (isset($message) ? ': ' . $message : '');
+        $this->log[] = $prefix . ($message === '' ? '' : ': ' . $message);
         return $this;
     }
 
     /**
-     * @return string[]
+     * @return array<string>
      */
     public function getLog(): array
     {

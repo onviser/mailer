@@ -18,6 +18,10 @@ class SendToFileMailer implements MailerInterface
             $this->error = "directory $this->directory is not exist";
             return false;
         }
+        if (is_dir($this->directory) === false) {
+            $this->error = "directory $this->directory is not directory";
+            return false;
+        }
         if (is_writable($this->directory) === false) {
             $this->error = "directory $this->directory is not writable";
             return false;

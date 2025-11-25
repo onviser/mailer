@@ -62,7 +62,7 @@ class SocketMock implements SocketInterface
         return '';
     }
 
-    public function setHelloName(string $helloName): self
+    public function setHelloName(string $helloName): static
     {
         $this->helloName = $helloName;
         return $this;
